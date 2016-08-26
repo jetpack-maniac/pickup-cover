@@ -22,6 +22,12 @@ polePieceBottomSize = 5;
 polePieceBottomAlignment = 9.25; // distance from BOTTOM of the cover to the bottom edge of the bottom pole pieces
 polePieceBottomSpacing = 58.674;
 
+// Mounting tab 'types'
+// cut creates a cutaway on the side for existing tabs
+// tab creates the side structure
+// block extends the sides of the cover with screw holes, most similar to some 7 string covers
+mountingTab = "cut";
+
 edge = roundness*coverThickness;
 
 module coverBase(){
@@ -94,7 +100,7 @@ module mainBodyCut(){
     cube([coverLength - 2*coverThickness, coverWidth - 2*coverThickness, coverHeight - 2*coverThickness]);
 }
 
-module mountingTab(){
+module mountingTabConstructor(type){
 
 
 }
@@ -120,4 +126,5 @@ difference(){
   coverBase();
   mainBodyCut();
   polePiecePunch();
+  if(mountingTab == "cut"){mountingTabConstructor(mountingTab);}
 }
