@@ -1,12 +1,21 @@
 // this project is a printable cover for guitar pickups
+// this comes with default options set to a typical 6 string humbucker
 
-coverLength = 60;
-coverWidth = 30;
-coverHeight = 20;
+coverLength = 70; // pickups are about 68.4mm long, this is a tad wider to fit
+coverWidth = 38; // pickups are 36.5 wide
+coverHeight = 20; // pickups are about 27.3 tall from the lowest point, they don't need to be that tall to cover them
 coverThickness = 1; // this is the thickness of each side
 roundness = 2; // this is degree of roundness the corners get
 
-faces = 20;
+tabLength = 84.2; // total distance from edge to edge of mounting tabs, this is the widest point of the cover
+tabWidth = 12.7;
+
+faces = 20; // the number of faces increases the detail on rounded portions
+
+polePieceHoles = 6; // if you want holes for your pole pieces set this to your string count
+polePieceSize = 5; // hole in mm
+polePieceAlignment = 70; // represent shift along vertical from bottom to top, higher numbers are closer to the top, represented as a percent of height
+polePieceSpacing = 58.674; // (total distance between ALL pieces)/2
 
 edge = roundness*coverThickness;
 
@@ -80,7 +89,23 @@ module mainBodyCut(){
     cube([coverLength - 2*coverThickness, coverWidth - 2*coverThickness, coverHeight - 2*coverThickness]);
 }
 
+module mountingTab(){
+
+
+}
+
+module polePiecePunch(){
+  // this cuts the holes where the pole pieces belong
+  if(polePieceHoles > 0){
+    for(hole = [1:polePieceHoles]){
+      translate([polePieceSpacing*(hole/polePieceHoles), coverWidth*(polePieceAlignment/100), coverHeight - coverThickness - edge])
+        cylinder(d = polePieceSize, h = coverThickness + edge, $fn = faces);
+    }
+  }
+}
+
 difference(){
   coverBase();
   mainBodyCut();
+  polePiecePunch();
 }
