@@ -12,10 +12,15 @@ tabWidth = 12.7;
 
 faces = 20; // the number of faces increases the detail on rounded portions
 
-polePieceHoles = 6; // if you want holes for your pole pieces set this to your string count
-polePieceSize = 5; // hole in mm
-polePieceAlignment = 70; // represent shift along vertical from bottom to top, higher numbers are closer to the top, represented as a percent of height
-polePieceSpacing = 58.674; // (total distance between ALL pieces)/2
+polePieceTopHoles = 6; // if you want holes for your pole pieces set this to your string count
+polePieceTopSize = 5; // hole in mm
+polePieceTopAlignment = 72; // distance from the TOP of the cover to the top edge of the top pole pieces
+polePieceTopSpacing = 58.674; // total distance between ALL pieces
+
+polePieceBottomHoles = 6;
+polePieceBottomSize = 5;
+polePieceBottomAlignment = 33; // distance from BOTTOM of the cover to the bottom edge of the bottom pole pieces
+polePieceBottomSpacing = 58.674;
 
 edge = roundness*coverThickness;
 
@@ -96,10 +101,17 @@ module mountingTab(){
 
 module polePiecePunch(){
   // this cuts the holes where the pole pieces belong
-  if(polePieceHoles > 0){
-    for(hole = [1:polePieceHoles]){
-      translate([polePieceSpacing*(hole/polePieceHoles), coverWidth*(polePieceAlignment/100), coverHeight - coverThickness - edge])
-        cylinder(d = polePieceSize, h = coverThickness + edge, $fn = faces);
+  if(polePieceTopHoles > 0){
+    for(hole = [1:polePieceTopHoles]){
+      translate([polePieceTopSpacing*(hole/polePieceTopHoles), coverWidth*(polePieceTopAlignment/100), coverHeight - coverThickness - edge])
+        cylinder(d = polePieceTopSize, h = coverThickness + edge, $fn = faces);
+    }
+  }
+
+  if(polePieceBottomHoles > 0){
+    for(hole = [1:polePieceBottomHoles]){
+      translate([polePieceBottomSpacing*(hole/polePieceBottomHoles), coverWidth*(polePieceBottomAlignment/100), coverHeight - coverThickness - edge])
+        cylinder(d = polePieceBottomSize, h = coverThickness + edge, $fn = faces);
     }
   }
 }
